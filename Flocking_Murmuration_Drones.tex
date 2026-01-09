@@ -12,6 +12,12 @@
 \copyrightyear{2026}
 \academicyear{2025}
 
+% Use flat section numbering (report class defaults to 0.x without chapters).
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}.}
+\renewcommand{\theparagraph}{\thesubsubsection.\arabic{paragraph}.}
+
 \begin{document}
 \makeTitlePage
 
@@ -26,11 +32,11 @@ This departure from a traditional RL paradigm preserves data efficiency and adds
 
 This work contributes three novel elements:
 \begin{enumerate}
-  \item \textbf{Paradigm exit from RL to Mean-Field/DMFT.} We demonstrate RL's structural limits (distributional tethering, high variance, local exploration) and replace distribution-bound updates with Mean-Field Theory (MFT) and its dynamical extension, DMFT.
+  \item \textbf{Paradigm exit from RL to Mean-Field/DMFT.} I demonstrate RL's structural limits (distributional tethering, high variance, local exploration) and replace distribution-bound updates with Mean-Field Theory (MFT) and its dynamical extension, DMFT.
     \subitem{\emph{Why it matters:} yields scalable, closed-form dynamics that can be stress-tested and audited in advance, unlike distribution-tied RL rollouts; provides certifiable behavior for both swarms and single-aircraft copilots.}
-  \item \textbf{DMFT with self-consistent kernels.} We extend DMFT with memory kernels and colored noise to model temporal propagation and adversarial perturbations.
+  \item \textbf{DMFT with self-consistent kernels.} I extend DMFT with memory kernels and colored noise to model temporal propagation and adversarial perturbations.
   \subitem{ \emph{Why it matters:} predicts and hardens responses to shocks such as jamming, missile locks, decoys, or evasive maneuvers; supports rapid, linear-response re-tasking and principled fault isolation in real time.}
-  \item \textbf{Elliptic-curve murmuration as algebraic topology.} We link Frobenius-trace distributions over finite fields to DMFT, furnishing cryptographically grounded, structured interaction graphs and routing schemes.
+  \item \textbf{Elliptic-curve murmuration as algebraic topology.} I link Frobenius-trace distributions over finite fields to DMFT, furnishing cryptographically grounded, structured interaction graphs and routing schemes.
   \subitem{\emph{Why it matters:} enables cohesive (biomimetic) and defensive motion—denial walls, escort behaviors while maintaining secure coordination under electronic warfare; applicable to inter-vehicle swarms and intra-aircraft sensor/actuator fabrics for copilots.}
 \end{enumerate}
 
@@ -41,15 +47,15 @@ that supports tractable, interpretable, and secure autonomy across modalities. C
 
 \section{Introduction}
 
-The uncanny coherence observed in starling murmurations has long inspired interdisciplinary research into emergent collective behavior. This thesis extends such biological insights to adversarial drone swarms by developing a rigorous, multi-layered theoretical framework. Beginning from stochastic agent models and Group Relative Policy Optimization (GRPO; an RL method); we also use a generalized response-to-perturbed-observables lens to connect dynamics and control, we derive Mean-Field (MF) and Dynamic Mean-Field Theory (DMFT) descriptions capturing temporal memory and non-Markovian effects. We further incorporate Mean-Field Game (MFG) theory to model strategic decision-making among competing agents, and Density Functional Theory (DFT) to characterize spatial-temporal distributions. 
+The uncanny coherence observed in starling murmurations has long inspired interdisciplinary research into emergent collective behavior. This paper extends such biological insights to adversarial drone swarms by developing a rigorous, multi-layered theoretical framework. Beginning from stochastic agent models and Group Relative Policy Optimization (GRPO; an RL method); I also use a generalized response-to-perturbed-observables lens to connect dynamics and control, I derive Mean-Field (MF) and Dynamic Mean-Field Theory (DMFT) descriptions capturing temporal memory and non-Markovian effects. I further incorporate Mean-Field Game (MFG) theory to model strategic decision-making among competing agents, and Density Functional Theory (DFT) to characterize spatial-temporal distributions. 
 
-A novel contribution is the integration of arithmetic murmuration concepts via elliptic curve aggregates, providing algebraic finite-field abstractions for interaction topologies. These enable modeling of encrypted communication channels and adversarial routing in swarm networks. By combining these perspectives, we propose a unified theoretical foundation for next-generation adversarial drone warfare, emphasizing local interactions, global coherence, and strategic adaptability.
+A novel contribution is the integration of arithmetic murmuration concepts via elliptic curve aggregates, providing algebraic finite-field abstractions for interaction topologies. These enable modeling of encrypted communication channels and adversarial routing in swarm networks. By combining these perspectives, I propose a unified theoretical foundation for next-generation adversarial drone warfare, emphasizing local interactions, global coherence, and strategic adaptability.
 
 The structure of this document is as follows: Section 2 reviews biological and arithmetic murmuration. Section 3 develops the stochastic agent dynamics model and Mean-Field limits. Section 4 extends to DMFT with memory kernels and signal propagation. Section 5 introduces elliptic curve murmuration and finite-field abstractions. Section 6 formulates Mean-Field Games and control-theoretic frameworks. Section 7 presents Density Functional expansions. Section 8 discusses applications to drone swarm combat scenarios, including simulation approaches. Section 9 concludes with expanded future directions.
 
 \section{Biological and Arithmetic Murmuration}
 
-\subsection{2.1 Biological Murmuration: Local Interaction and Coherence}
+\subsection{Biological Murmuration: Local Interaction and Coherence}
 
 Starling murmurations exemplify emergent collective behavior arising from simple local interaction rules. Empirical studies \cite{ballerini2008interaction, cavagna2010scale} show that each bird aligns its velocity to approximately seven nearest neighbors, establishing a bounded locality that fosters spatial coherence without centralized control. Perturbations propagate as structured waves with characteristic decay lengths, enabling rapid information transfer across the flock.
 
@@ -59,7 +65,7 @@ Mathematically, this can be modeled as a system of stochastic differential equat
 \end{equation}
 where $\mathcal{N}_i$ denotes the set of neighbors of agent $i$, and $\eta_i(t)$ is noise.
 
-\subsection{2.2 Arithmetic Murmuration: Elliptic Curve Aggregates}
+\subsection{Arithmetic Murmuration: Elliptic Curve Aggregates}
 
 Recent advances \cite{mazur2022elliptic, quanta2024murmuration} have uncovered an intriguing arithmetic analog of murmuration in the distribution of Frobenius traces of elliptic curves over prime fields. Unlike spatial locality, this "arithmetic locality" operates over finite prime windows, exhibiting coherence in rank and conductor distributions reminiscent of biological murmuration.
 
@@ -74,17 +80,17 @@ This arithmetic murmuration suggests universality of coherence phenomena across 
 \section{From Stochastic Agent Dynamics to Mean-Field Theory}
 \label{sec:dynamics-mf}
 
-\subsection{3.0 GRPO: Group Relative Policy Optimization (RL)}
+\subsection{GRPO: Group Relative Policy Optimization (RL)}
 \label{sec:grpo-rl}
-We use GRPO in its reinforcement learning sense: a policy-gradient method that centers advantages by a group-relative baseline to reduce variance and induce cooperative/competitive shaping in multi-agent settings. For a joint policy \(\pi_\theta\), the objective \(J(\theta)=\mathbb{E}[R]\) yields the gradient
+I use GRPO in its reinforcement learning sense: a policy-gradient method that centers advantages by a group-relative baseline to reduce variance and induce cooperative/competitive shaping in multi-agent settings. For a joint policy \(\pi_\theta\), the objective \(J(\theta)=\mathbb{E}[R]\) yields the gradient
 \begin{equation}
 \nabla_\theta J(\theta) = \mathbb{E}_{\pi_\theta}\big[\nabla_\theta \log \pi_\theta(a\mid s)\, \hat A^{\text{group}}(s,a)\big],\qquad \hat A^{\text{group}}(s,a)=\hat R_i-\overline{R}_{\text{group}}.
 \end{equation}
 This sits in the RL/control layer (see Fig.~\ref{fig:concept-bridge}) alongside TRPO/PPO/MADDPG/MA-AIRL and informs the policy/control variable \(u_i\). The *response-to-perturbations* viewpoint later connects policy updates to effective dynamics via linear response.
 
-\subsection{3.1 Agent-Based Stochastic Dynamics}
+\subsection{Agent-Based Stochastic Dynamics}
 
-We model each drone or bird as a stochastic agent with internal state $x_i(t) \in \mathbb{R}^d$ evolving according to a generalized Langevin-type equation:
+I model each drone or bird as a stochastic agent with internal state $x_i(t) \in \mathbb{R}^d$ evolving according to a generalized Langevin-type equation:
 \begin{equation}
 \dot{x}_i = -\frac{\partial H}{\partial x_i} + \eta_i(t),
 \label{eq:grpo}
@@ -93,7 +99,7 @@ where $H$ is the interaction Hamiltonian encoding agent couplings, and $\eta_i(t
 
 The Generalized Response to Perturbed Observables (GRPO) formalism \cite{marconi2008fluctuation} captures the response of the system to perturbations, enabling analysis of stability and propagation of signals.
 
-\subsection{3.2 Mean-Field Limit}
+\subsection{Mean-Field Limit}
 
 As the number of agents $N \to \infty$, individual fluctuations average out, and the system dynamics converge to a mean-field description:
 \begin{equation}
@@ -104,9 +110,9 @@ where $V$ is a potential function, $J$ is a coupling constant, and $\langle x \r
 
 This limit neglects temporal correlations and memory effects, providing a first-order approximation of collective behavior.
 
-\subsection{3.3 Finite-Field and $k$-Nearest Neighbor Abstractions}
+\subsection{Finite-Field and $k$-Nearest Neighbor Abstractions}
 
-To model spatially bounded interactions beyond Euclidean space, we place agents in finite fields $\mathbb{F}_q^d$ and define neighborhoods via algebraic closeness or $k$-nearest neighbor (knn) embeddings:
+To model spatially bounded interactions beyond Euclidean space, I place agents in finite fields $\mathbb{F}_q^d$ and define neighborhoods via algebraic closeness or $k$-nearest neighbor (knn) embeddings:
 \begin{itemize}
   \item Agents are indexed by elements in $\mathbb{F}_q^d$.
   \item Neighborhood $\mathcal{N}_i = \{j : d_{\mathbb{F}_q}(i,j) \leq k\}$, where $d_{\mathbb{F}_q}$ is an algebraic metric.
@@ -116,7 +122,7 @@ This abstraction supports modeling of encrypted communication networks and adver
 
 \section{Dynamic Mean-Field Theory and Signal Propagation}
 
-\subsection{4.1 Dynamic Mean-Field Theory (DMFT)}
+\subsection{Dynamic Mean-Field Theory (DMFT)}
 
 DMFT incorporates temporal memory and self-consistent noise statistics into the mean-field description. Using the cavity method \cite{georges1996dynamical}, the dynamics for agent $i$ satisfy:
 \begin{equation}
@@ -127,7 +133,7 @@ where $\Gamma$ is a memory kernel encoding past interactions, and $\xi_i(t)$ is 
 
 The memory kernel captures retardation effects and signal propagation delays, essential for modeling real-time swarm responses.
 
-\subsection{4.2 Signal Propagation in Weakly Coupled Systems}
+\subsection{Signal Propagation in Weakly Coupled Systems}
 
 Perturbations to a single agent induce ripple effects across neighbors. In biological flocks, a bird's turn generates a decaying wave of velocity changes. In DMFT, the memory kernel $\Gamma$ explicitly governs this propagation:
 \begin{equation}
@@ -158,34 +164,37 @@ On the population level, the density $m(t,x)$ obeys a continuity/diffusion law
 \label{eq:mf-continuity}
 \partial_t m(t,x)=
 -\nabla\!\cdot\!\Big(m\,\big[f(x,t)+u^\star(t,x)\big]\Big)
-+\tfrac12\nabla\!\cdot\!\big(D\,\nabla m\big),\qquad D=\sigma\sigma^\top.
++\tfrac12\nabla\!\cdot\!\big(D\,\nabla m\big),\qquad D=\sigma\sigma^\top
 \end{equation}
 
 Small exogenous perturbations $h$ (e.g.\ jamming, feints) drive observables $O$ via linear response:
 \begin{equation}
 \label{eq:kubo}
-\delta\!\langle O\rangle(t)=\int_0^t \chi_O(t-s)\,\delta h(s)\,ds,\qquad
-\chi_O(t)=\frac{d}{dh}\Big|_{h=0}\langle O\rangle_h(t).
+\delta\!\langle O\rangle(t)=\int_0^t \chi_O(t-s)\,\delta h(s)\,ds \qquad
+\chi_O(t)=\frac{d}{dh}\Big|_{h=0}\langle O\rangle_h(t)
 \end{equation}
 
 \paragraph{Control without dynamic programming.}
-We select controls by minimizing a \emph{kernel-aware action} (no value function):
+I select controls by minimizing a \emph{kernel-aware action} (no value function):
 \begin{equation}
 \label{eq:kernel-action}
+\begin{aligned}
 \mathcal{J}[u]=\int_0^T\!\Big(
-\underbrace{\Phi(m_t)}_{\text{formation/mission cost}}
+&\underbrace{\Phi(m_t)}_{\text{formation/mission cost}}
 +\underbrace{\tfrac12\,\|u\|_{\mathcal{K}^{-1}}^2}_{\text{effort in kernel metric}}
 -\underbrace{\langle r_t,\,O(m_t)\rangle}_{\text{task drive}}
-\Big)\,dt,\quad
-\|u\|_{\mathcal{K}^{-1}}^2=\int u^\top \mathcal{K}^{-1} u\,dx,
+\Big)\,dt \backepsilon \\
+&\|u\|_{\mathcal{K}^{-1}}^2=\int u^\top \mathcal{K}^{-1} u\,dx,
+\end{aligned}
 \end{equation}
 with $\mathcal{K}$ chosen from the same operator family as $\Gamma$.
 Stationarity of $\mathcal{J}$ yields Euler-Lagrange conditions on $u^\star$ coupled to
-\eqref{eq:mf-continuity}. \emph{Interpretation:} we steer the ensemble in the operator
+\eqref{eq:mf-continuity}. \emph{Interpretation:} I steer the ensemble in the operator
 basis that governs propagation, giving closed/semi-closed feedback without Bellman/RL.
 
 \paragraph{Domain mapping (same math, different semantics).}
 \begin{center}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}l l l l l l@{}}
 \toprule
 Domain & State $x$ & Drift $f$ & Kernel $\Gamma$ / coupling & Control $u$ & Observable $O$\\
@@ -197,11 +206,12 @@ Infantry & pose+cover occupancy & terrain diffusion & LOS occlusion, morale & mo
 BJJ/Boxing & distance, angle, posture & bio-mechanics & grip/clinching hysteresis & feint/grapple/hip shift & advantage, off-balancing \\
 \bottomrule
 \end{tabular}
+}
 \end{center}
 
 \subsection{Fish Schooling as Hydrodynamic Memory}
 \label{sec:fish-memory}
-For fish, we decompose
+For fish, I decompose
 \begin{equation}
 \Gamma(t)=\Gamma_{\text{align}}(t)+\Gamma_{\text{wake}}(t),
 \end{equation}
@@ -210,7 +220,7 @@ $\Gamma_{\text{wake}}$ encodes delayed lift/drag from neighbors’ vortices.
 In practice, $\Gamma_{\text{wake}}(t)\approx\sum_{k=1}^K a_k e^{-t/\tau_k}$ (few decaying modes fit to CFD/data).
 Natural observables are perimeter density (bait-ball ``shell''), internal velocity variance (cohesion), and an energy/drag proxy.
 
-\paragraph{Closed-form shapeshifting (biomimicry).}
+\paragraph{Closed-Form Shapeshifting (Biomimicry)}
 Given a target formation field $m^\dagger(x,t)$ (e.g.\ torus $\to$ sheet $\to$ wedge),
 \begin{equation}
 \Phi(m_t)=\lambda_1\,\mathrm{KL}(m_t\Vert m^\dagger_t)+\lambda_2\,\|\mathcal{P}m_t\|^2,
@@ -259,9 +269,9 @@ Aquatic ``acrobatics'' and toroidal bait-ball strategies transfer to \emph{aeria
 
 \section{Elliptic Curve Murmuration and Finite-Field Topologies}
 
-\subsection{5.1 Algebraic Interaction Networks}
+\subsection{Algebraic Interaction Networks}
 
-Inspired by arithmetic murmuration, we define interaction graphs based on elliptic curve aggregates over finite fields. Let $\mathbb{F}_q$ be a finite field of order $q$, and consider elliptic curves $E/\mathbb{F}_q$ with group structure $E(\mathbb{F}_q)$.
+Inspired by arithmetic murmuration, I define interaction graphs based on elliptic curve aggregates over finite fields. Let $\mathbb{F}_q$ be a finite field of order $q$, and consider elliptic curves $E/\mathbb{F}_q$ with group structure $E(\mathbb{F}_q)$.
 
 Agents correspond to points on $E(\mathbb{F}_q)$, and neighborhoods are defined via group operations or conductor windows:
 \begin{equation}
@@ -269,7 +279,7 @@ Agents correspond to points on $E(\mathbb{F}_q)$, and neighborhoods are defined 
 \end{equation}
 where $\text{dist}$ is an algebraic metric, e.g., number of additions needed to reach $Q$ from $P$.
 
-\subsection{5.2 Coherence via Frobenius Trace Distributions}
+\subsection{Coherence via Frobenius Trace Distributions}
 
 The Frobenius endomorphism $\pi$ acts on $E(\mathbb{F}_q)$ with trace $a_q = q + 1 - |E(\mathbb{F}_q)|$. Statistical distributions of $a_q$ over prime windows exhibit coherence analogous to velocity alignment in flocks.
 
@@ -277,7 +287,7 @@ This arithmetic coherence supports secure, structured communication protocols fo
 
 \section{Mean-Field Games and Control Theory}
 
-\subsection{6.1 Mean-Field Game Formulation}
+\subsection{Mean-Field Game Formulation}
 
 Mean-Field Games \cite{lasry2007mean, huang2006large} model strategic interactions among a large population of rational agents. Each agent $i$ controls state $x_i(t)$ to minimize a cost functional:
 \begin{equation}
@@ -292,7 +302,7 @@ The coupled Hamilton-Jacobi-Bellman (HJB) and Fokker-Planck (FP) equations chara
 \end{align}
 where $V$ is the value function, and $u^*$ is the optimal control.
 
-\subsection{6.2 Control-Theoretic Extensions}
+\subsection{Control-Theoretic Extensions}
 
 In adversarial drone swarms, agents optimize trajectories balancing objectives such as engagement, evasion, and communication. Control inputs $u_i$ influence states $x_i$ evolving under stochastic dynamics:
 \begin{equation}
@@ -300,11 +310,11 @@ dx_i = f(x_i,u_i) dt + \sigma dW_t,
 \end{equation}
 with $W_t$ a Wiener process.
 
-Using MFG, we derive decentralized control policies robust to adversarial perturbations, enabling emergent cooperative or competitive stratagems.
+Using MFG, I derive decentralized control policies robust to adversarial perturbations, enabling emergent cooperative or competitive stratagems.
 
 \section{Density Functional Extensions}
 
-\subsection{7.1 Density Functional Theory for Agent Distributions}
+\subsection{Density Functional Theory for Agent Distributions}
 
 Extending Mean-Field formulations, Density Functional Theory (DFT) \cite{evans1979nature} models the free energy $\mathcal{F}[m]$ as a functional of agent density $m(x,t)$:
 \begin{equation}
@@ -318,7 +328,7 @@ The equilibrium density minimizes $\mathcal{F}[m]$ subject to constraints:
 \end{equation}
 with $\mu$ a chemical potential.
 
-\subsection{7.2 Dynamic Density Functional Theory (DDFT)}
+\subsection{Dynamic Density Functional Theory (DDFT)}
 
 DDFT extends DFT to time-dependent densities $m(x,t)$ satisfying a continuity equation with fluxes driven by functional derivatives of $\mathcal{F}$:
 \begin{equation}
@@ -329,21 +339,20 @@ This framework models spatiotemporal evolution of agent distributions, capturing
 
 \section{Applications: Adversarial Drone Swarms}
 
-\subsection{8.1 Simulation of DMFT-Driven Drone Swarms}
+\subsection{Simulation of DMFT-Driven Drone Swarms}
 
-Using the DMFT framework with memory kernels and colored noise, we simulate drone swarms engaged in adversarial combat. Agents follow stochastic dynamics with control inputs derived from MFG solutions.
+Using the DMFT framework with memory kernels and colored noise, I simulate drone swarms engaged in adversarial combat. Agents follow stochastic dynamics with control inputs derived from MFG solutions.
 
-\subsection{8.2 Tactical Scenarios}
-
+\subsection{Tactical Scenarios}
 \begin{itemize}
   \item \textbf{Airspace Denial Walls:} Defensive drones form dynamic barriers using local interaction rules to prevent enemy incursions.
   \item \textbf{Murmuration-Inspired Confusion:} Adversarial swarms mimic natural murmuration patterns to disrupt targeting algorithms.
   \item \textbf{Response Functions:} Derived from DMFT memory kernels, enabling rapid adaptation to missile locks, jamming, and evasion.
 \end{itemize}
 
-\subsection{8.3 Conceptual Diagram of Multi-Layered Framework}
+\subsection{Conceptual Diagram of Multi-Layered Framework}
 
-\begin{figure}[H]
+\begin{figure}[p]
 \centering
 \resizebox{\linewidth}{!}{%
 \begin{tikzpicture}[node distance=1.4cm and 2.1cm, auto, thick, every node/.style={transform shape}, >=Latex]
@@ -430,9 +439,9 @@ Using the DMFT framework with memory kernels and colored noise, we simulate dron
 }
 \end{figure}
 
-\section{Conclusion and Future Directions}
+\section{Conclusion \& Future Work}
 
-This thesis has developed a comprehensive, multi-disciplinary framework for modeling and controlling adversarial drone swarms, grounded in first principles of stochastic agent dynamics, mean-field theories, game theory, and algebraic abstractions. By integrating biological and arithmetic murmuration concepts, we have proposed novel finite-field interaction topologies and cryptographically inspired swarm protocols. The incorporation of dynamic memory kernels and control-theoretic formulations enables realistic modeling of signal propagation and strategic decision-making in adversarial environments.
+This paper has developed a comprehensive, multi-disciplinary framework for modeling and controlling adversarial drone swarms, grounded in first principles of stochastic agent dynamics, mean-field theories, game theory, and algebraic abstractions. By integrating biological and arithmetic murmuration concepts, I have proposed novel finite-field interaction topologies and cryptographically inspired swarm protocols. The incorporation of dynamic memory kernels and control-theoretic formulations enables realistic modeling of signal propagation and strategic decision-making in adversarial environments.
 
 Future research directions include:
 
@@ -448,7 +457,7 @@ The synergy of physics, mathematics, computer science, and engineering presented
 \appendix
 
 \section*{Appendix A: Simulation Results}
-\textit{Results from Gillespie-style stochastic simulations and DMFT-based numerical solvers are available upon request. Visualizations illustrating wave propagation, memory kernel effects, and strategic swarm maneuvers will be embedded in the final thesis PDF.}
+\textit{Results from Gillespie-style stochastic simulations and DMFT-based numerical solvers are available upon request. Visualizations illustrating wave propagation, memory kernel effects, and strategic swarm maneuvers will be embedded in the final paper PDF.}
 
 \buildBibliography
 
