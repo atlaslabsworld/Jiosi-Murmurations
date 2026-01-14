@@ -216,7 +216,7 @@ For fish, I decompose
 \Gamma(t)=\Gamma_{\text{align}}(t)+\Gamma_{\text{wake}}(t),
 \end{equation}
 where $\Gamma_{\text{align}}$ captures social alignment and
-$\Gamma_{\text{wake}}$ encodes delayed lift/drag from neighbors’ vortices.
+$\Gamma_{\text{wake}}$ encodes delayed lift/drag from neighbors' vortices.
 In practice, $\Gamma_{\text{wake}}(t)\approx\sum_{k=1}^K a_k e^{-t/\tau_k}$ (few decaying modes fit to CFD/data).
 Natural observables are perimeter density (bait-ball ``shell''), internal velocity variance (cohesion), and an energy/drag proxy.
 
@@ -229,8 +229,8 @@ with $\mathcal{P}$ projecting out undesirable modes (e.g.\ radial buckling). The
 \begin{equation}
 \label{eq:kernel-feedback}u^\star(t,x)=\mathcal{K}\,\nabla_x \Big(\delta\Phi/\delta m\Big)(t,x),
 \end{equation}
-i.e.\ push along the kernel’s easy directions—\emph{analytical, auditable, and fast}.
-This implements our favored capability: \emph{shapeshifting murmurations} with closed-form biomimicry.
+i.e.\ push along the kernel's easy directions—\emph{analytical, auditable, and fast}.
+This implements the favored capability: \emph{shapeshifting murmurations} with closed-form biomimicry.
 
 \subsection{Implementation Skeleton (No Bellman, No RL)}
 \vspace{-0.25em}
